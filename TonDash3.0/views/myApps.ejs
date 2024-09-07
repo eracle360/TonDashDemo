@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Apps - Ton Dash</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .card {
+            margin-top: 20px;
+        }
+        .card-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+            background-color: #007bff;
+            color: #ffffff;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+            color: #ffffff;
+            border: none;
+            margin-right: 10px;
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+        .btn-modify {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+        }
+        .btn-modify:hover {
+            background-color: #0056b3;
+        }
+        .modal-header {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Apps</h1>
+        <% myApps.forEach(function(app) { %>
+        <div class="card">
+            <div class="card-header">
+                <%= app.name %>
+            </div>
+            <div class="card-body">
+                <p class="card-text"><%= app.description %></p>
+                <button class="btn btn-delete" onclick="deleteApp('<%= app.name %>')">Delete</button>
+                <button class="btn btn-modify" data-toggle="modal" data-target="#modifyAppModal" onclick="setCurrentApp('<%= app.name %>')">Modify</button>
+            </div>
+        </div>
+        <% }) %>
+        <!-- Modal for modifying app -->
+        <div class="modal fade" id="modifyAppModal" tabindex="-1" aria-labelledby="modifyAppModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modifyAppModalLabel">Modify App</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="appName">App Name:</label>
+                                <input type="text" class="form-control" id="appName" name="appName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="caption">Caption:</label>
+                                <input type="text" class="form-control" id="caption" name="caption" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category:</label>
+                                <select class="form-control" id="category" name="category" required>
+                                    <!-- Options here -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="languages">Languages:</label>
+                                <input type="text" class="form-control" id="languages" name="languages" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="appStore">App Store Link:</label>
+                                <input type="url" class="form-control" id="appStore" name="appStore">
+                            </div>
+                            <div class="form-group">
+                                <label for="googlePlay">Google Play Link:</label>
+                                <input type="url" class="form-control" id="googlePlay" name="googlePlay">
+                            </div>
+                            <div class="form-group">
+                                <label for="github">GitHub Link:</label>
+                                <input type="url" class="form-control" id="github" name="github">
+                            </div>
+                            <div class="form-group">
+                                <label for="website">Website Link:</label>
+                                <input type="url" class="form-control" id="website" name="website">
+                            </div>
+                            <div class="form-group">
+                                <label for="telegram">Telegram Link:</label>
+                                <input type="url" class="form-control" id="telegram" name="telegram">
+                            </div>
+                            <div class="form-group">
+                                <label for="socialMedia">Social Media Links:</label>
+                                <input type="url" class="form-control" id="socialMedia" name="socialMedia">
+                            </div>
+                            <div class="form-group">
+                                <label for="icon">Icon:</label>
+                                <input type="file" class="form-control-file" id="icon" name="icon" accept="image/*">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit for Preview</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function deleteApp(appName) {
+            if (confirm('Are you sure you want to delete ' + appName + '?')) {
+                // Implement the delete functionality here
+                alert('App ' + appName + ' deleted!');
+            }
+        }
+
+        function setCurrentApp(appName) {
+            // Set the current app details in the modal for modification
+            document.getElementById('appName').value = appName;
+            // Implement the logic to set other app details in the modal
+        }
+    </script>
+</body>
+</html>

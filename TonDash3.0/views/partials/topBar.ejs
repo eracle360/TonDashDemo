@@ -1,0 +1,147 @@
+<nav
+  class="navbar navbar-expand-lg navbar-dark"
+  style="z-index: 10; padding: 0.5rem 2rem"
+>
+  <style>
+    .navbar {
+      background-color: rgba(0, 0, 0, 0.7) !important;
+      backdrop-filter: blur(10px);
+      z-index: 2;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+    }
+    .navbar-toggler {
+      border: none;
+    }
+    .navbar-toggler:focus {
+      outline: none;
+    }
+    .navbar-collapse.collapse.show {
+      /* padding: 10px; */
+      /* background-color: rgba(0, 0, 0, 0.9); Dark background when expanded */
+    }
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      color: white !important;
+    }
+    .navbar-brand img {
+      margin-right: 10px;
+    }
+    .nav-link,
+    .navbar-brand {
+      font-size: 1.1rem;
+      color: white !important;
+    }
+
+    .nav-login {
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+    }
+
+    .hide {
+      display: none;
+    }
+
+    @media (max-width: 990px) {
+      .nav-login {
+        margin-left: 0px;
+        margin-top: 10px;
+      }
+    }
+  </style>
+  <a class="navbar-brand" href="/">
+    <img src="/images/logo.png" alt="Ton Dash Logo" style="height: 40px" />
+    Ton Dash
+  </a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNav"
+    aria-controls="navbarNav"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto" style="margin-left: auto !important">
+      <li class="nav-item">
+        <a class="nav-link" href="/#news">News</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/jettons">Jettons</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/promoteapp">Promote App</a>
+      </li>
+      <li class="nav-item hide" id="add-app-main">
+        <a class="nav-link" href="/add-app">Add App</a>
+      </li>
+      <li class="nav-item nav-login">
+        <div id="telegram-login-widget"></div>
+        <script
+          async
+          src="https://telegram.org/js/telegram-widget.js?"
+          data-telegram-login="DashTonbot"
+          data-size="medium"
+          data-onauth="onTelegramAuth(user)"
+          data-request-access="write"
+        ></script>
+      </li>
+    </ul>
+  </div>
+
+  <script type="text/javascript">
+    function setCookie(cname, cvalue, exdays) {
+      const d = new Date();
+      d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+      let expires = "expires=" + d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(";");
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    function onTelegramAuth(user) {
+      //   alert("Logged in as " + user.username);
+
+      localStorage.setItem("tonUser", user.id);
+
+      //   document.getElementById("add-app-main").remov;
+      var element = document.getElementById("add-app-main");
+
+      element.classList.remove("hide");
+    }
+
+    function testing() {
+      const user = localStorage.getItem("tonUser");
+      if (user) {
+        // document.getElementById("add-app-main").remov;
+        var element = document.getElementById("add-app-main");
+        element.classList.remove("hide");
+      }
+    }
+
+    testing();
+  </script>
+</nav>

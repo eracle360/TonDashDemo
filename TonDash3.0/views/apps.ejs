@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Approved Apps - Ton Dash</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+      }
+      .navbar {
+        background-color: #fff !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 2;
+        position: relative;
+      }
+      .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+      }
+      .navbar-brand img {
+        margin-right: 10px;
+      }
+      .nav-link {
+        font-size: 1.1rem;
+      }
+      .container {
+        margin-top: 20px;
+      }
+      .app-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .app-item {
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+      .app-item:hover {
+        transform: translateY(-5px);
+      }
+      .app-item img {
+        width: 50px;
+        height: 50px;
+        margin-right: 15px;
+        border-radius: 50%;
+      }
+      .app-item h5 {
+        margin: 0;
+        font-size: 1.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-expand-lg navbar-dark"
+      style="z-index: 10; padding: 0.5rem 2rem"
+    >
+      <a class="navbar-brand" href="/">
+        <img src="/images/logo.png" alt="Ton Dash Logo" style="height: 40px" />
+        Ton Dash
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/news">NEWS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/jettons">Jettons</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/promote">Promote App</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/approved-apps">Approved Apps</a>
+          </li>
+          <li class="nav-item">
+            <div id="telegram-login-widget"></div>
+            <script
+              async
+              src="https://telegram.org/js/telegram-widget.js?22"
+              data-telegram-login="samplebot"
+              data-size="large"
+              data-onauth="onTelegramAuth(user)"
+              data-request-access="write"
+            ></script>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <h2 class="my-4 text-center">Approved Apps</h2>
+      <div class="app-list">
+        <% approvedApps.forEach(function(app) { %>
+        <div class="app-item">
+          <img src="<%= app.icon %>" alt="App Icon" />
+          <h5><%= app.name %></h5>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <footer class="footer mt-auto py-3 bg-light">
+      <div class="container">
+        <span class="text-muted"
+          >&copy; 2024 Ton Dash. All rights reserved.</span
+        >
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      function onTelegramAuth(user) {
+        alert("Logged in as " + user.username);
+      }
+    </script>
+  </body>
+</html>

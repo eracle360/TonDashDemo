@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Ton Dash</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        background-color: #f3f3f3;
+        /* position: relative; */
+      }
+      .navbar {
+        /* display: none; */
+      }
+      .main-toggle {
+        display: none;
+      }
+      .sidebar {
+        height: 100vh;
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #ffffff;
+        padding-top: 15px;
+        transition: width 0.3s;
+        padding-right: 10px;
+        color: #2c2c2c;
+      }
+      .sidebar a {
+        padding: 10px 20px;
+        text-decoration: none;
+        font-size: 1rem;
+        color: #2c2c2c;
+        display: block;
+        transition: 0.3s;
+        border-radius: 0 20px 20px 0;
+        margin-bottom: 5px;
+        font-weight: 300 !important;
+        letter-spacing: 0.5px;
+      }
+      .sidebar a:hover {
+        /* background-color: #0081c27e; */
+        color: #0081c2;
+      }
+      .sidebar a.active {
+        background-color: #0081c2;
+
+        color: #ffffff;
+      }
+      .sidebar a.icon {
+        display: none;
+      }
+      .content {
+        margin-left: 250px;
+        padding: 20px;
+        padding-top: 10px;
+        width: 100%;
+        transition: margin-left 0.3s;
+        color: #2c2c2c;
+      }
+      .card {
+        margin-bottom: 25px;
+        border: none !important;
+        border-radius: 5px;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+      }
+      .card-header {
+        border-radius: 5px 5px 0 0 !important;
+        font-size: 1.2rem;
+        font-weight: 500;
+        /* font-weight: bold; */
+        background-color: #ffffff;
+        padding: 25px;
+        /* color: #ffffff; */
+      }
+      .card-body {
+        padding: 20px;
+        /* padding-top: 0px; */
+      }
+      .btn-approve,
+      .btn-delete,
+      .btn-promote,
+      .btn-remove {
+        margin-right: 10px;
+      }
+      .footer {
+        text-align: center;
+        padding: 10px;
+        background-color: #f8f9fa;
+        margin-top: 20px;
+      }
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 200px;
+          /* height: auto; */
+          position: absolute;
+          top: -100vh;
+        }
+        /* .sidebar a {
+          float: left;
+        }
+        .sidebar a:not(:first-child) {
+          display: none;
+        }
+        .sidebar a.icon {
+          float: right;
+          display: block;
+        } */
+        .content {
+          margin-left: 0;
+        }
+        /* .navbar {
+          display: block;
+        } */
+        .main-toggle {
+          display: inline-block;
+        }
+      }
+      @media (max-width: 768px) {
+        .sidebar.responsive {
+          /* position: relative; */
+          top: 0;
+          /* right: 0; */
+          left: 0;
+          z-index: 10;
+        }
+        /* .sidebar.responsive a.icon {
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+        .sidebar.responsive a {
+          float: none;
+          display: block;
+          text-align: left;
+        } */
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar" id="mySidebar">
+      <a href="javascript:void(0)" class="icon" onclick="toggleSidebar()"
+        >&#9776;</a
+      >
+      <h2 class="navbar-brand" style="margin-bottom: 25px; padding-left: 20px">
+        <img
+          src="/images/logo.png"
+          alt="Ton Dash Logo"
+          style="height: 40px; margin-right: 5px"
+        />
+        Ton Dash
+      </h2>
+      <a
+        href="javascript:void(0)"
+        onclick="showSection('pendingApps')"
+        class="active"
+        >Pending Apps</a
+      >
+      <a href="javascript:void(0)" onclick="showSection('promotedApps')"
+        >Promoted Apps</a
+      >
+      <a href="javascript:void(0)" onclick="showSection('deletedApps')"
+        >Deleted Apps</a
+      >
+      <a href="javascript:void(0)" onclick="showSection('approvedApps')"
+        >Approved Apps</a
+      >
+      <a href="javascript:void(0)" onclick="showSection('addApp')">Add App</a>
+      <!-- <a href="javascript:void(0)" onclick="showSection('users')">Users</a> -->
+    </div>
+
+    <div class="content">
+      <nav
+        class="navbar navbar-expand-lg navbar-light bg-light"
+        style="
+          background-color: #ffffff !important;
+          border-radius: 5px;
+          margin-bottom: 25px;
+        "
+      >
+        <!-- <a class="navbar-brand" href="/admin/dashboard">
+          <img
+            src="/images/logo.png"
+            alt="Ton Dash Logo"
+            style="height: 40px"
+          />
+          Ton Dash
+        </a> -->
+        <h4
+          style="
+            position: relative;
+            top: 3px;
+            font-size: 22px;
+            margin-right: 10px;
+          "
+        >
+          Welcome Admin
+        </h4>
+        <!-- <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+          
+        > -->
+        <span
+          onclick="toggleSidebar()"
+          class="navbar-toggler-icon main-toggle"
+        ></span>
+        <!-- </button> -->
+        <!-- <div class="collapse navbar-collapse" id="navbarNav"> -->
+        <ul class="navbar-nav ml-auto">
+          <!-- <li class="nav-item">
+              <a class="nav-link" href="/admin/dashboard">Home</a>
+            </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="/users/logout">Logout</a>
+          </li>
+        </ul>
+        <!-- </div> -->
+      </nav>
+
+      <div id="addApp" class="section hidden">
+        <div class="card">
+          <div class="card-header">Add App</div>
+          <div class="card-body">
+            <form
+              action="/admin/add-app"
+              method="post"
+              enctype="multipart/form-data"
+            >
+              <div class="form-group">
+                <label for="appName" class="form-label">App Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="appName"
+                  name="appName"
+                  placeholder="Enter your application name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="caption" class="form-label">Caption</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="caption"
+                  name="caption"
+                  placeholder="Enter a short app description"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="languages" class="form-label">Languages</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="languages"
+                  name="languages"
+                  placeholder="Enter languages"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="description" class="form-label">Description</label>
+                <textarea
+                  class="form-control"
+                  id="description"
+                  name="description"
+                  rows="3"
+                  placeholder="Enter a description for your application"
+                  required
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="website" class="form-label">Website</label>
+                <div class="icon-input">
+                  <i class="fas fa-globe"></i>
+                  <input
+                    type="url"
+                    class="form-control"
+                    id="website"
+                    name="website"
+                    placeholder="https://website.com/"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="telegramChannel" class="form-label"
+                  >Telegram Channel</label
+                >
+                <div class="icon-input">
+                  <i class="fab fa-telegram-plane"></i>
+                  <input
+                    type="url"
+                    class="form-control"
+                    id="telegramChannel"
+                    name="telegramChannel"
+                    placeholder="t.me/channel"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="telegramBot" class="form-label"
+                  >Telegram Bot (Optional)</label
+                >
+                <div class="icon-input">
+                  <i class="fab fa-telegram-plane"></i>
+                  <input
+                    type="url"
+                    class="form-control"
+                    id="telegramBot"
+                    name="telegramBot"
+                    placeholder="t.me/bot"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="telegramChat" class="form-label"
+                  >Telegram Chat (Optional)</label
+                >
+                <div class="icon-input">
+                  <i class="fab fa-telegram-plane"></i>
+                  <input
+                    type="url"
+                    class="form-control"
+                    id="telegramChat"
+                    name="telegramChat"
+                    placeholder="t.me/chat"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="appStore" class="form-label"
+                  >App Store (Optional)</label
+                >
+                <div class="icon-input">
+                  <i class="fab fa-apple"></i>
+                  <input
+                    type="url"
+                    class="form-control"
+                    id="appStore"
+                    name="appStore"
+                    placeholder="apps.apple.com/"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="googlePlay" class="form-label"
+                  >Google Play (Optional)</label
+                >
+                <div class="icon-input">
+                  <i class="fab fa-google-play"></i>
+                  <input
+                    type="url"
+                    class="form-control"
+                    id="googlePlay"
+                    name="googlePlay"
+                    placeholder="play.google.com/"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="github" class="form-label">Github (Optional)</label>
+                <div class="icon-input">
+                  <i class="fab fa-github"></i>
+                  <input
+                    type="url"
+                    class="form-control"
+                    id="github"
+                    name="github"
+                    placeholder="github.com/"
+                  />
+                </div>
+              </div>
+              <p class="step-indicator">Step 2: Visuals</p>
+              <div class="form-group">
+                <label class="form-label">Upload an icon</label>
+                <div class="icon-input">
+                  <i class="fas fa-upload"></i>
+                  <input
+                    type="file"
+                    class="form-control"
+                    id="icon"
+                    name="icon"
+                    accept="image/jpeg, image/png"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  >Screenshots (Minimum 2, Maximum 4)</label
+                >
+                <div class="icon-input">
+                  <i class="fas fa-upload"></i>
+                  <input
+                    type="file"
+                    class="form-control required"
+                    id="screenshots"
+                    name="screenshots"
+                    accept="image/jpeg, image/png"
+                    required
+                  />
+                </div>
+                <div class="icon-input mt-2">
+                  <i class="fas fa-upload"></i>
+                  <input
+                    type="file"
+                    class="form-control optional"
+                    id="screenshots"
+                    name="screenshots"
+                    accept="image/jpeg, image/png"
+                  />
+                </div>
+                <div class="icon-input mt-2">
+                  <i class="fas fa-upload"></i>
+                  <input
+                    type="file"
+                    class="form-control optional"
+                    id="screenshots"
+                    name="screenshots"
+                    accept="image/jpeg, image/png"
+                  />
+                </div>
+                <div class="icon-input mt-2">
+                  <i class="fas fa-upload"></i>
+                  <input
+                    type="file"
+                    class="form-control optional"
+                    id="screenshots"
+                    name="screenshots"
+                    accept="image/jpeg, image/png"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  >Upload a video (Optional, Max 50MB)</label
+                >
+                <div class="icon-input">
+                  <i class="fas fa-upload"></i>
+                  <input
+                    type="file"
+                    class="form-control optional"
+                    id="video"
+                    name="video"
+                    accept="video/mp4, video/avi"
+                  />
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">
+                Submit for review
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="pendingApps" class="section">
+        <div class="card">
+          <div class="card-header">Pending Apps</div>
+          <div class="card-body">
+            <% pendingApps.forEach(function(app) { %>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><%= app.appName %></h5>
+                <p class="card-text"><%= app.description %></p>
+                <form
+                  action="/admin/apps/<%= app._id %>/approve"
+                  method="post"
+                  style="display: inline"
+                >
+                  <button class="btn btn-success btn-approve">Approve</button>
+                </form>
+                <form
+                  action="/admin/apps/<%= app._id %>/delete"
+                  method="post"
+                  style="display: inline"
+                >
+                  <button class="btn btn-danger btn-delete">Delete</button>
+                </form>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <div id="promotedApps" class="section hidden">
+        <div class="card">
+          <div class="card-header">Promoted Apps</div>
+          <div class="card-body">
+            <% promotedApps.forEach(function(app) { %>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><%= app.appName %></h5>
+                <p class="card-text"><%= app.description %></p>
+                <form
+                  action="/admin/apps/<%= app._id %>/remove-promoted"
+                  method="post"
+                  style="display: inline"
+                >
+                  <button class="btn btn-danger btn-remove">
+                    Remove from Promoted
+                  </button>
+                </form>
+                <form
+                  action="/admin/apps/<%= app._id %>/delete"
+                  method="post"
+                  style="display: inline"
+                >
+                  <button class="btn btn-danger btn-delete">Delete</button>
+                </form>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <div id="deletedApps" class="section hidden">
+        <div class="card">
+          <div class="card-header">Deleted Apps</div>
+          <div class="card-body">
+            <% deletedApps.forEach(function(app) { %>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><%= app.appName %></h5>
+                <p class="card-text"><%= app.description %></p>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <div id="approvedApps" class="section hidden">
+        <div class="card">
+          <div class="card-header">Approved Apps</div>
+          <div class="card-body">
+            <% approvedApps.forEach(function(app) { %>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><%= app.appName %></h5>
+                <p class="card-text"><%= app.description %></p>
+                <form
+                  action="/admin/apps/<%= app._id %>/delete"
+                  method="post"
+                  style="display: inline"
+                >
+                  <button class="btn btn-danger btn-delete">Delete</button>
+                </form>
+                <form
+                  action="/admin/apps/<%= app._id %>/promoted"
+                  method="post"
+                  style="display: inline"
+                >
+                  <button class="btn btn-success btn-promote">Promote</button>
+                </form>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div id="users" class="section hidden">
+        <div class="card">
+          <div class="card-header">Users</div>
+          <div class="card-body">
+            <ul class="list-group">
+              <% users.forEach(function(user) { %>
+              <li class="list-group-item">
+                <%= user.username %>
+                <button
+                  class="btn btn-link"
+                  onclick="viewUserApps('<%= user.username %>')"
+                >
+                  View Apps
+                </button>
+              </li>
+              <% }) %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <footer class="footer mt-auto py-3 bg-light">
+      <div class="container">
+        <span class="text-muted"
+          >&copy; 2024 Ton Dash. All rights reserved.</span
+        >
+      </div>
+    </footer> -->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      function toggleSidebar() {
+        var x = document.getElementById("mySidebar");
+        if (x.className === "sidebar") {
+          x.className += " responsive";
+        } else {
+          x.className = "sidebar";
+        }
+      }
+
+      function showSection(sectionId) {
+        var sections = document.getElementsByClassName("section");
+        for (var i = 0; i < sections.length; i++) {
+          sections[i].classList.add("hidden");
+        }
+        document.getElementById(sectionId).classList.remove("hidden");
+        var sidebarLinks = document.querySelectorAll(".sidebar a");
+        sidebarLinks.forEach((link) => link.classList.remove("active"));
+        document
+          .querySelector(
+            ".sidebar a[onclick=\"showSection('" + sectionId + "')\"]"
+          )
+          .classList.add("active");
+      }
+
+      function viewUserApps(username) {
+        alert("View apps for " + username);
+        // Implement the view user apps functionality here
+      }
+    </script>
+  </body>
+</html>

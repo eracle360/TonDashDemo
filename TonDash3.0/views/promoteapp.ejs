@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promote App</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+
+    <style>
+      body {
+          background-color: #f8f9fa;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+          font-family: 'Arial', sans-serif;
+      }
+
+      .promo-container {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          background-color: white;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+          max-width: 900px;
+      }
+
+      .promo-image {
+          flex: 1;
+          text-align: center;
+      }
+
+      .promo-image img {
+          max-width: 200px;
+          height: auto;
+          border-radius: 10px;
+      }
+
+      .promo-content {
+          flex: 1;
+          text-align: center;
+          padding: 20px;
+      }
+
+      .promo-title,
+      .promo-text,
+      .promo-button {
+          opacity: 0;
+          animation: fadeIn 1s ease forwards;
+      }
+
+      .promo-title {
+          animation-delay: 0.5s;
+      }
+
+      .promo-text {
+          animation-delay: 1s;
+      }
+
+      .promo-button {
+          animation-delay: 1.5s;
+      }
+
+      @keyframes fadeIn {
+          to {
+              opacity: 1;
+          }
+      }
+
+      .promo-button a {
+          background-color: #0088cc;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 5px;
+          text-decoration: none;
+          font-weight: bold;
+          transition: background-color 0.3s ease;
+      }
+
+      .promo-button a:hover {
+          background-color: #0077b5;
+      }
+
+      .promo-button a i {
+          margin-right: 10px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+          .promo-container {
+              flex-direction: column;
+              padding: 10px;
+          }
+
+          .promo-image {
+              margin-bottom: 20px;
+          }
+      }
+  </style>
+</head>
+
+<body>
+    <header><%- include('partials/topBar') %></header>
+
+  <div class="promo-container">
+      <div class="promo-image">
+          <img src="/images/WhatsApp Image 2024-09-06 at 11.37.42 AM.jpeg" alt="Promote Image" >
+      </div>
+      <div class="promo-content">
+          <h1 class="promo-title" style="font-weight: 500; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Promote Your App</h1>
+          <p class="promo-text">Get your app featured in our Top Trending section, giving you more visibility and engagement.</p>
+          <div class="promo-button">
+              <a href="https://t.me/your-promo-section" target="_blank">
+                  <i class="fab fa-telegram-plane"></i> Promote Now
+              </a>
+          </div>
+      </div>
+  </div>
+
+  <!-- Bootstrap JS and Font Awesome for Telegram Icon -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

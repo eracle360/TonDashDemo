@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= app.appName %></title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding-top: 80px;
+      }
+      .app-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #fff;
+        border-bottom: 1px solid #ddd;
+      }
+      .app-header img {
+        height: 40px;
+      }
+      .app-details {
+        padding: 20px;
+        border-bottom: 1px solid #ddd;
+      }
+      .app-info {
+        display: flex;
+        align-items: center;
+      }
+      .app-info h2 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+      .ratings {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+      }
+      .ratings .stars {
+        color: gold;
+        margin-right: 10px;
+      }
+      .btn-open {
+        width: 100%;
+        margin-top: 20px;
+        font-size: 1rem;
+      }
+      .preview-section {
+        display: flex;
+        overflow-x: auto;
+        padding: 10px 0;
+        scroll-behavior: smooth;
+      }
+      .preview-item {
+        flex: 0 0 auto;
+        margin-right: 10px;
+        width: 250px;
+        height: 500px;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid #ddd;
+      }
+      .preview-item img,
+      .preview-item video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .info-card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 20px;
+      }
+      .info-card .section {
+        padding: 10px 0;
+      }
+      .info-card .section:not(:last-child) {
+        border-bottom: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <header><%- include('partials/topBar') %></header>
+
+    <div class="container">
+      <div
+        class="app-details"
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 40px 0;
+          padding-bottom: 20px;
+          flex-wrap: wrap;
+          gap: 15px;
+        "
+      >
+        <div>
+          <div class="app-info">
+            <img
+              src="<%= app.icon %>"
+              alt="<%= app.appName %>"
+              style="width: 50px; height: 50px; margin-right: 15px"
+            />
+            <div>
+              <h2 style="margin-bottom: 10px"><%= app.appName %></h2>
+              <p style="margin-bottom: 0"><%= app.caption %></p>
+            </div>
+          </div>
+          <% if (app.rating !== undefined) { %>
+          <div class="ratings">
+            <div class="stars">
+              <% for (let i = 0; i < app.rating; i++) { %> &#9733; <% } %> <%
+              for (let i = app.rating; i < 5; i++) { %> &#9734; <% } %>
+            </div>
+            <div>
+              <span><%= app.rating %></span>
+              <span>&#183;</span>
+              <span><%= app.reviews.length %> Reviews</span>
+            </div>
+          </div>
+          <% } %>
+        </div>
+
+        <button
+          class="btn btn-primary btn-lg btn-block btn-open"
+          style="border-radius: 20px; width: 200px; margin-top: 0"
+        >
+          Open app
+        </button>
+      </div>
+
+      <div class="preview-section">
+        <% if (app.screenshots && app.screenshots.length) { %> <%
+        app.screenshots.forEach(screenshot => { %>
+        <div class="preview-item">
+          <img src="<%= screenshot %>" alt="Screenshot" />
+        </div>
+        <% }) %> <% } %> <% if (app.video) { %>
+        <div class="preview-item">
+          <video controls>
+            <source src="<%= app.video %>" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="info-card">
+        <div class="section">
+          <div class="section-header">Platforms</div>
+          <div>Telegram, Web</div>
+        </div>
+
+        <div class="section">
+          <div class="section-header">Interface languages</div>
+          <div><%= app.languages.join(', ') %></div>
+        </div>
+
+        <div class="section">
+          <div class="section-header">Telegram</div>
+          <div><%= app.telegram %></div>
+        </div>
+
+        <div class="section">
+          <div class="alert alert-warning">
+            <img class="fav-icon" src="/images/fav-icon.png" alt="Fav Icon" />
+            TON App is not responsible for any of the apps in the catalog. Using
+            this app you take your own risks. Read our
+            <a href="#">Disclaimer Terms</a> and <a href="#">Privacy Policy</a>.
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">Description</div>
+        <p><%= app.description %></p>
+      </div>
+
+      <div class="section">
+        <div class="section-header">Reviews <%= app.reviews.length %></div>
+        <div class="media">
+          <% app.reviews.forEach(review => { %>
+          <img
+            src="/images/user-icon.png"
+            class="mr-3"
+            alt="User Icon"
+            style="width: 64px"
+          />
+          <div class="media-body">
+            <h5 class="mt-0">
+              <%= review.user %> <small>(Tap a Star to Rate)</small>
+            </h5>
+            <span>
+              <% for (let i = 0; i < review.rating; i++) { %> ⭐️ <% } %>
+            </span>
+            <p><%= review.comment %></p>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
